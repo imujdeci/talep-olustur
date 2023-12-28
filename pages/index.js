@@ -1,11 +1,44 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "@/styles/Home.module.css";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Autocomplete,
+  TextField,
+  Typography,
+  Checkbox,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory } from "@/store/Slices/CategorySlice";
+import { getCity } from "@/store/Slices/CitySlice";
 
-const inter = Inter({ subsets: ['latin'] })
+
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const [check, setCheck] = useState(false);
+
+  const handleCheck = (event) => {};
+
+  const { category } = useSelector((state) => state.category);
+  const { city } = useSelector((state) => state.city);
+
+  useEffect(() => {
+    dispatch(getCategory());
+    dispatch(getCity());
+  }, []);
+
+  console.log(category);
+  console.log(city.data);
+
+  const handleCategoryChange = (event, newValue) => {
+    console.log(newValue);
+  };
+
   return (
     <>
       <Head>
@@ -14,101 +47,46 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      <div>
+        <Autocomplete
+          disablePortal
+          disableCloseOnSelect
+          selectOnFocus
+          id="combo-box-demo"
+          options={category}
+          getOptionLabel={(option) => option.name}
+          value={null}
+          renderOption={(props, option) => (
+            <li {...props}>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`panel-${option.id}-content`}
+                  id={`panel-${option.id}-header`}
+                >
+                  <Typography>{option.name}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {option.subCategories && option.subCategories.length > 0 ? (
+                    <ul className={styles.list}>
+                      {option.subCategories.map((subCategory) => (
+                        <li key={subCategory.id}>
+                          <Checkbox />
+                          {subCategory.name}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Typography>Alt kategori bulunamadı.</Typography>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            </li>
+          )}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Kategori" />}
+        />
+      </div>
     </>
-  )
+  );
 }
