@@ -1,44 +1,14 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "@/styles/Home.module.css";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Autocomplete,
-  TextField,
-  Typography,
-  Checkbox,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategory } from "@/store/Slices/CategorySlice";
 import { getCity } from "@/store/Slices/CitySlice";
-
-
+import Category from "@/components/Category";
+import City from "@/components/City";
+import County from "@/components/County";
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const [check, setCheck] = useState(false);
-
-  const handleCheck = (event) => {};
-
-  const { category } = useSelector((state) => state.category);
-  const { city } = useSelector((state) => state.city);
-
-  useEffect(() => {
-    dispatch(getCategory());
-    dispatch(getCity());
-  }, []);
-
-  console.log(category);
-  console.log(city.data);
-
-  const handleCategoryChange = (event, newValue) => {
-    console.log(newValue);
-  };
-
   return (
     <>
       <Head>
@@ -47,45 +17,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <Autocomplete
-          disablePortal
-          disableCloseOnSelect
-          selectOnFocus
-          id="combo-box-demo"
-          options={category}
-          getOptionLabel={(option) => option.name}
-          value={null}
-          renderOption={(props, option) => (
-            <li {...props}>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls={`panel-${option.id}-content`}
-                  id={`panel-${option.id}-header`}
-                >
-                  <Typography>{option.name}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {option.subCategories && option.subCategories.length > 0 ? (
-                    <ul className={styles.list}>
-                      {option.subCategories.map((subCategory) => (
-                        <li key={subCategory.id}>
-                          <Checkbox />
-                          {subCategory.name}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <Typography>Alt kategori bulunamadı.</Typography>
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            </li>
-          )}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Kategori" />}
-        />
+      <div className={styles.background}>
+        <div className={styles.categoryDiv}>
+          <Category />
+        </div>
+
+        <div className={styles.cityDiv}>
+          <City />
+          <County />
+        </div>
       </div>
     </>
   );
