@@ -14,7 +14,7 @@ const store = () =>
       selectedCategory: SelectedInfoSlice,
       selectedCity: SelectedInfoSlice,
       selectedCounty: SelectedInfoSlice,
-      selectedSubcategories: SelectedInfoSlice,
+      selectedSubcategory: SelectedInfoSlice,
     },
   });
 

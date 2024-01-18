@@ -17,7 +17,6 @@ const City = () => {
   useEffect(() => {
     dispatch(getCity());
   }, []);
-  console.log(city.data);
 
   const handleCityChange = (event, value) => {
     dispatch(setSelectedCity(value));
@@ -26,7 +25,7 @@ const City = () => {
       dispatch(setSelectedCounty(null));
     }
   };
-
+  console.log(selectedCity);
   return (
     <div>
       <Autocomplete
@@ -36,10 +35,11 @@ const City = () => {
         options={city.data || []}
         getOptionLabel={(option) => option.name}
         value={selectedCity}
+        isOptionEqualToValue={(option, value) => option.name === value.name}
         onChange={handleCityChange}
         renderOption={(props, option) => <li {...props}>{option.name}</li>}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="İl Seçiniz" />}
+        renderInput={(params) => <TextField {...params} label="İl seçiniz" />}
       />
     </div>
   );

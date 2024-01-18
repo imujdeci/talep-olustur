@@ -1,12 +1,10 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getCity } from "@/store/Slices/CitySlice";
 import Category from "@/components/Category";
 import City from "@/components/City";
 import County from "@/components/County";
+import ShowForm from "@/components/ShowForm";
 
 export default function Home() {
   return (
@@ -17,7 +15,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.background}>
+      <div className={styles.center}>
+        <ShowForm />
+      </div>
+
+      {/* <div className={styles.background}>
         <div className={styles.categoryDiv}>
           <Category />
         </div>
@@ -26,7 +28,7 @@ export default function Home() {
           <City />
           <County />
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

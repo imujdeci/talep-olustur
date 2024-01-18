@@ -6,7 +6,7 @@ export const selectedInfoSlice = createSlice({
     selectedCategory: null,
     selectedCity: null,
     selectedCounty: null,
-    selectedSubCategories: [],
+    selectedSubCategory: null,
   },
   reducers: {
     setSelectedCategory: (state, action) => {
@@ -18,8 +18,8 @@ export const selectedInfoSlice = createSlice({
     setSelectedCounty: (state, action) => {
       state.selectedCounty = action.payload;
     },
-    updateSelectedSubcategories: (state, action) => {
-      state.selectedSubCategories = action.payload;
+    setSelectedSubcategory: (state, action) => {
+      state.selectedSubCategory = action.payload;
     },
   },
 });
@@ -28,7 +28,7 @@ export const {
   setSelectedCategory,
   setSelectedCity,
   setSelectedCounty,
-  updateSelectedSubcategories,
+  setSelectedSubcategory,
 } = selectedInfoSlice.actions;
 
 export default selectedInfoSlice.reducer;

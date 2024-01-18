@@ -10,7 +10,7 @@ const County = () => {
   const dispatch = useDispatch();
   const { county } = useSelector((state) => state.county);
   const { selectedCounty } = useSelector((state) => state.selectedCounty);
-  console.log(county);
+  console.log(selectedCounty);
 
   const handleCountyChange = (event, value) => {
     dispatch(setSelectedCounty(value));
@@ -27,7 +27,7 @@ const County = () => {
         onChange={handleCountyChange}
         renderOption={(props, option) => <li {...props}>{option.name}</li>}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="İlçe Seçiniz" />}
+        renderInput={(params) => <TextField {...params} label="İlçe seçiniz" />}
       />
     </div>
   );
